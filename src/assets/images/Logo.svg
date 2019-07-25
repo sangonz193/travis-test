@@ -1,0 +1,35 @@
+<svg id="OpenFING" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 2050">
+    <defs>
+        <filter id="sombra">
+            <feGaussianBlur in="SourceAlpha" result="desenfoqueSombra" stdDeviation="32"/>
+            <feOffset in="desenfoqueSombra" dx="0" dy="0" result="desplazamientoSombra"/>
+            <feFlood flood-color="rgba(0,0,0,0.9)" result="colorSombra"/>
+            <feComposite in="colorSombra" in2="desplazamientoSombra" operator="in" result="OpenFINGsombra"/>
+            <feMerge>
+                <feMergeNode in="OpenFINGsombra" />
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+        <style>
+            .enlaces {
+            fill: none;
+            stroke: #1f4f80;
+            stroke-width: 50px;
+            }
+            .nodos {
+            fill: #2e77bd;
+            stroke: #1f4f80;
+            stroke-width: 20px;
+            }
+        </style>
+    </defs>
+    <title>OpenFING</title>
+    <g id="Enlaces" class="enlaces">
+        <polygon id="Enlace" points="460,500 995,1435 1530,565"/>
+    </g>
+    <g id="Nodos" class="nodos">
+        <circle id="NodoChico" cx="1485" cy="605" r="255"/>
+        <circle id="NodoMedio" cx="462" cy="462" r="392"/>
+        <circle id="NodoGrande" cx="1000" cy="1462" r="502"/>
+    </g>
+</svg>

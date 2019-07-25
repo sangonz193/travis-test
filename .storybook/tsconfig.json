@@ -1,0 +1,28 @@
+{
+	"compilerOptions": {
+		"allowJs": true,
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": "./",
+		"experimentalDecorators": true,
+		"forceConsistentCasingInFileNames": true,
+		"jsx": "react",
+		"lib": ["es6", "dom", "esnext"],
+		"module": "esnext",
+		"moduleResolution": "node",
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"skipLibCheck": true,
+		"paths": {
+			"src/*": ["../src/*"]
+		},
+		"noUnusedLocals": false,
+		"outDir": "./build",
+		"rootDir": "./",
+		"sourceMap": true,
+		"strictNullChecks": true,
+		"suppressImplicitAnyIndexErrors": true,
+		"target": "es5"
+	},
+	"exclude": ["build", "jest", "node_modules", "webpack"]
+}

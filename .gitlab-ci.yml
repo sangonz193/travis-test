@@ -1,0 +1,36 @@
+cache:
+    paths:
+        - node_modules/
+
+before_script:
+    - apt-get -qq update
+    - apt-get -qq install openssh-client git-core gnupg curl rsync > /dev/null
+    - curl -sSL https://deb.nodesource.com/setup_8.x | bash -
+    - apt-get -qq install nodejs
+
+deploy to preview:
+    stage: deploy
+    environment:
+        name: preview
+    script:
+        - echo "" >> ./.env
+        - echo $ENV_PREVIEW_FILE | base64 -di >> ./.env
+        - set -o allexport; source .env; set +o allexport
+
+        - eval $(ssh-agent -s)
+        - echo "$SSH_PRIVATE_KEY" | base64 -di > sshkey
+        - echo "" >> sshkey
+        - cat sshkey | tr -d '\r' | ssh-add - > /dev/null
+
+        - mkdir -p ~/.ssh
+        - chmod 700 ~/.ssh
+        - echo "$PRIVATE_HOST_KEY" | base64 -di > ~/.ssh/known_hosts
+
+        - npm i
+        - echo "APP_VERSION=$CI_COMMIT_TAG" >> ./.env
+        - npm run build
+
+        - ssh openfing@openfing.fing.edu.uy 'rm -rf ~/openfing/preview; mkdir ~/openfing/preview'
+        - rsync -vaz -e ssh dist/ openfing@openfing.fing.edu.uy:~/openfing/preview
+    only:
+        - /^v\d+\.\d+\.\d+-preview\d+$/

@@ -1,0 +1,29 @@
+{
+	"compilerOptions": {
+		"allowJs": true,
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": ".",
+		"experimentalDecorators": true,
+		"forceConsistentCasingInFileNames": true,
+		"jsx": "react",
+		"lib": ["es6", "dom", "esnext"],
+		"module": "esnext",
+		"moduleResolution": "node",
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"skipLibCheck": true,
+		"noUnusedLocals": false,
+		"outDir": "./build",
+		"rootDir": "",
+		"paths": {
+			"src/*": ["./src/*"]
+		},
+		"sourceMap": true,
+		"strictNullChecks": true,
+		"suppressImplicitAnyIndexErrors": true,
+		"target": "esnext",
+		"plugins": [{ "name": "@divyenduz/ts-graphql-plugin" }]
+	},
+	"exclude": ["build", "jest", "node_modules", "webpack", "webpack.config.js"]
+}
