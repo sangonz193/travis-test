@@ -1,9 +1,9 @@
 language: bash
 
 before_install:
-    - apt-get -qqy install openssh-client git-core gnupg curl rsync > /dev/null
+    - sudo apt-get -qqy install openssh-client git-core gnupg curl rsync > /dev/null
     - curl -sSL https://deb.nodesource.com/setup_8.x | bash -
-    - apt-get -qqy install nodejs
+    - sudo apt-get -qqy install nodejs
     - echo "" >> ./.env
     - echo $ENV_PREVIEW_FILE | base64 -di >> ./.env
     - echo "APP_VERSION=$CI_COMMIT_TAG" >> ./.env
