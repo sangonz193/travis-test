@@ -21,6 +21,7 @@ deploy:
     skip_cleanup: true
     script: bash scripts/deploy.sh
     on:
+        all_branches: true
         condition: ((tag =~ /^v\d+\.\d+\.\d+-preview\d+$/) AND ((branch = develop) OR (branch = master)))
 
 after_deploy: cat .env
