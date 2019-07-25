@@ -1,11 +1,9 @@
-language: bash
+language: node_js
 sudo: required
 
 before_install:
     - sudo apt-get update
     - sudo apt-get -qqy install openssh-client git-core gnupg curl rsync
-    - sudo curl -sSL https://deb.nodesource.com/setup_8.x | bash -
-    - sudo apt-get -qqy install nodejs
     - echo "" >> ./.env
     - echo $ENV_PREVIEW_FILE | base64 -di >> ./.env
     - echo "APP_VERSION=$CI_COMMIT_TAG" >> ./.env
