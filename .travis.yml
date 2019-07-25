@@ -10,6 +10,7 @@ before_install:
     - sudo apt-get -qqy install openssh-client git-core gnupg curl rsync
     - echo "" >> ./.env
     - echo $ENV_PREVIEW_FILE | base64 -di >> ./.env
+    - echo "" >> ./.env
     - echo "APP_VERSION=$CI_COMMIT_TAG" >> ./.env
     - set -o allexport; source .env; set +o allexport
 
@@ -19,5 +20,6 @@ script:
 deploy:
     provider: script
     skip_cleanup: true
-    condition: ((tag =~ /^v\d+\.\d+\.\d+-preview\d+$/) AND ((branch = develop) OR (branch = master)))
     script: bash scripts/deploy.sh
+    on:
+        condition: ((tag =~ /^v\d+\.\d+\.\d+-preview\d+$/) AND ((branch = develop) OR (branch = master)))
