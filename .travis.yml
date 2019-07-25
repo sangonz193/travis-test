@@ -16,17 +16,20 @@ before_install:
 script:
     - npm run build
 
+before_deploy:
+    - touch __deploy.sh
+    - echo "eval \$\(ssh-agent -s)" >> __deploy.sh
+    - echo "echo \"\$SSH_PRIVATE_KEY\" | base64 -di > sshkey" >> __deploy.sh
+    - echo "echo \"\" >> sshkey" >> __deploy.sh
+    - echo "cat sshkey | tr -d '\r' | ssh-add - > /dev/null" >> __deploy.sh
+    - echo "mkdir -p ~/.ssh" >> __deploy.sh
+    - echo "chmod 700 ~/.ssh" >> __deploy.sh
+    - echo "echo \"\$PRIVATE_HOST_KEY\" | base64 -di > ~/.ssh/known_hosts" >> __deploy.sh
+    - echo "ssh openfing@openfing.fing.edu.uy 'rm -rf ~/openfing/preview; mkdir ~/openfing/preview'" >> __deploy.sh
+    - echo "rsync -vaz -e ssh dist/ openfing@openfing.fing.edu.uy:~/openfing/preview" >> __deploy.sh
+
 deploy:
     - provider: script
       skip_cleanup: true
       condition: ((tag =~ /^v\d+\.\d+\.\d+-preview\d+$/) AND ((branch = develop) OR (branch = master)))
-      script:
-          - eval $(ssh-agent -s)
-          - echo "$SSH_PRIVATE_KEY" | base64 -di > sshkey
-          - echo "" >> sshkey
-          - cat sshkey | tr -d '\r' | ssh-add - > /dev/null
-          - mkdir -p ~/.ssh
-          - chmod 700 ~/.ssh
-          - echo "$PRIVATE_HOST_KEY" | base64 -di > ~/.ssh/known_hosts
-          - ssh openfing@openfing.fing.edu.uy 'rm -rf ~/openfing/preview; mkdir ~/openfing/preview'
-          - rsync -vaz -e ssh dist/ openfing@openfing.fing.edu.uy:~/openfing/preview
+      script: ./__deploy.sh
