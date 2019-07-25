@@ -3,7 +3,7 @@ sudo: required
 
 before_install:
     - sudo apt-get -qqy install openssh-client git-core gnupg curl rsync
-    - curl -sSL https://deb.nodesource.com/setup_8.x | bash -
+    - sudo curl -sSL https://deb.nodesource.com/setup_8.x | bash -
     - sudo apt-get -qqy install nodejs
     - echo "" >> ./.env
     - echo $ENV_PREVIEW_FILE | base64 -di >> ./.env
