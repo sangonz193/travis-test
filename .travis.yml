@@ -22,3 +22,5 @@ deploy:
     script: bash scripts/deploy.sh
     on:
         condition: ((tag =~ /^v\d+\.\d+\.\d+-preview\d+$/) AND ((branch = develop) OR (branch = master)))
+
+after_deploy: cat .env
