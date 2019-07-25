@@ -1,5 +1,8 @@
 language: node_js
-node_js: 12.6.0
+
+node_js:
+    - 12.6.0
+
 sudo: required
 
 before_install:
@@ -15,7 +18,7 @@ script:
 
 deploy:
     skip_cleanup: true
-    condition: ((tag =~ /^v\d+\.\d+\.\d+-preview\d+$/) AND (branch = develop) OR (branch = master))
+    condition: ((tag =~ /^v\d+\.\d+\.\d+-preview\d+$/) AND ((branch = develop) OR (branch = master)))
     script:
         - eval $(ssh-agent -s)
         - echo "$SSH_PRIVATE_KEY" | base64 -di > sshkey
