@@ -2,7 +2,7 @@ language: bash
 sudo: required
 
 before_install:
-    - sudo su
+    - sudo apt-get update
     - sudo apt-get -qqy install openssh-client git-core gnupg curl rsync
     - sudo curl -sSL https://deb.nodesource.com/setup_8.x | bash -
     - sudo apt-get -qqy install nodejs
