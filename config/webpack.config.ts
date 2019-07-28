@@ -5,17 +5,55 @@ import * as CreateFileWebpack from "create-file-webpack";
 import * as HtmlWebPackPlugin from "html-webpack-plugin";
 import * as InlineEnvironmentVariablesPlugin from "inline-environment-variables-webpack-plugin";
 import * as TerserPlugin from "terser-webpack-plugin";
-import * as dotenv from "dotenv";
-import * as fs from "fs";
 import * as path from "path";
 import * as webpack from "webpack";
 
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
+import { projectPath } from "../projectPath";
 
-export const webpackConfigFactory = (env: string, isStorybook: boolean = false) => {
+const babelConfig = {
+	presets: [
+		[
+			"@babel/env",
+			{
+				targets: {
+					ie: "11",
+				},
+				debug: true,
+			},
+		],
+	],
+	plugins: [
+		[
+			"@babel/plugin-transform-runtime",
+			{
+				absoluteRuntime: false,
+				corejs: 3,
+				helpers: true,
+				regenerator: true,
+				useESModules: false,
+			},
+		],
+		["@babel/plugin-proposal-decorators", { legacy: true }],
+		["@babel/proposal-class-properties", { loose: true }],
+		"@babel/proposal-object-rest-spread",
+		"babel-plugin-styled-components",
+	],
+};
+
+export const webpackConfigFactory = (
+	env: "development" | "production" | "none",
+	isStorybook: boolean = false
+): webpack.Configuration & {
+	devServer: {
+		publicPath: string;
+		historyApiFallback: boolean;
+		host: string;
+	};
+} => {
 	const publicPath = process.env.PUBLIC_URL || "/";
-	const outputPath = path.resolve(process.cwd(), "dist");
+	const outputPath = path.resolve(projectPath, "dist");
 
 	const isProd = env === "production";
 
@@ -28,17 +66,14 @@ export const webpackConfigFactory = (env: string, isStorybook: boolean = false) 
 				extractComments: "all",
 				terserOptions: {
 					compress: {
-						drop_console: false,
+						drop_console: true,
 					},
 				},
 			})
 		);
 
-	const envFile = fs.readFileSync(".env", { encoding: "utf8" });
-	const envVariables = dotenv.parse(envFile);
-
 	const plugins = [
-		new webpack.EnvironmentPlugin(envVariables),
+		new webpack.EnvironmentPlugin(process.env),
 		new HtmlWebPackPlugin({
 			template: "./public/index.html",
 			filename: "./index.html",
@@ -89,6 +124,7 @@ RewriteRule ^ /var/www/html/OpenFING-FW${publicPath !== "/" && publicPath !== ".
 							loader: "babel-loader",
 							options: {
 								cacheDirectory: true,
+								...babelConfig,
 							},
 						},
 						{
@@ -107,6 +143,7 @@ RewriteRule ^ /var/www/html/OpenFING-FW${publicPath !== "/" && publicPath !== ".
 							loader: "babel-loader",
 							options: {
 								cacheDirectory: true,
+								...babelConfig,
 							},
 						},
 					],

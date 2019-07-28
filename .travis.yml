@@ -8,10 +8,9 @@ sudo: required
 before_install:
     - sudo apt-get update
     - sudo apt-get -qqy install openssh-client git-core gnupg curl rsync
-    - echo "" >> ./.env
-    - echo $ENV_PREVIEW_FILE | base64 -di >> ./.env
-    - echo "" >> ./.env
-    - set -o allexport; source .env; set +o allexport
+    - echo "" >> .env
+    - echo $ENV_PREVIEW_FILE | base64 -di >> .env
+    - echo "" >> .env
 
 script:
     - npm run build
@@ -19,9 +18,8 @@ script:
 deploy:
     provider: script
     skip_cleanup: true
-    script: bash scripts/deploy.sh
+    script: npm run deploy
     on:
         all_branches: true
-        condition: ((tag =~ /^v\d+\.\d+\.\d+-preview\d+$/) AND ((branch = develop) OR (branch = master)))
 
 after_deploy: cat .env

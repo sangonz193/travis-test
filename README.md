@@ -1,3 +1,0 @@
-# openfing-web
-
-WIP

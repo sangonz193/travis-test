@@ -15,15 +15,11 @@
 		"skipLibCheck": true,
 		"noUnusedLocals": false,
 		"outDir": "./build",
-		"rootDir": "",
-		"paths": {
-			"src/*": ["./src/*"]
-		},
+		"rootDir": "./",
 		"sourceMap": true,
 		"strictNullChecks": true,
 		"suppressImplicitAnyIndexErrors": true,
-		"target": "esnext",
-		"plugins": [{ "name": "@divyenduz/ts-graphql-plugin" }]
+		"target": "esnext"
 	},
-	"exclude": ["build", "jest", "node_modules", "webpack", "webpack.config.js"]
+	"exclude": ["build", "jest", "node_modules", "webpack", "webpack.config.js", "config", "scripts"]
 }
