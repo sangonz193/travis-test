@@ -100,7 +100,7 @@
 		"react-apollo-hooks": "^0.5.0",
 		"react-dom": "^16.8.6",
 		"regenerator-runtime": "^0.13.3",
-		"ssh2": "^0.8.5",
+		"ssh2": "^1.4.0",
 		"ssh2-promise": "^0.1.5",
 		"styled-components": "^4.3.2",
 		"url-join": "^4.0.1",
